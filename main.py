@@ -4,5 +4,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-x = set([i for i in range(10)])
