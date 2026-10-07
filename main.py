@@ -1,5 +1,6 @@
 import os
 import argparse
+import yaml
 from dotenv import load_dotenv
 from settings import Settings
 
@@ -11,6 +12,20 @@ def export_envs(environment: str = "dev") -> None:
         raise FileNotFoundError(f"Config file not found: {env_file}")
 
     load_dotenv(env_file, override=True)
+
+
+def export_secrets(secrets_file: str = "secrets.yaml") -> None:
+    with open(secrets_file) as f:
+        secrets = yaml.safe_load(f)
+
+    if "sops" in secrets:
+        raise RuntimeError(
+            f"{secrets_file} is encrypted, decrypt it first with: "
+            f"sops --decrypt --in-place {secrets_file}"
+        )
+
+    for key, value in secrets.items():
+        os.environ[key] = str(value)
 
 
 if __name__ == "__main__":
@@ -26,8 +41,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     export_envs(args.environment)
+    export_secrets()
 
     settings = Settings()
 
     print("APP_NAME: ", settings.APP_NAME)
     print("ENVIRONMENT: ", settings.ENVIRONMENT)
+    print("API_KEY: ", settings.API_KEY)
