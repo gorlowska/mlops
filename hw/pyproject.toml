@@ -25,6 +25,7 @@ explicit = true
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "pre-commit>=4.6.2",
     "pytest>=9.1.1",
 ]
@@ -33,3 +34,6 @@ dev = [
 ignore_missing_imports = true
 explicit_package_bases = true
 mypy_path = "$MYPY_CONFIG_FILE_DIR"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
