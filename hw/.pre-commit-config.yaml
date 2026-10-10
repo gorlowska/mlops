@@ -1,0 +1,15 @@
+files: ^hw/
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.0
+    hooks:
+      - id: ruff-check  # Linter
+        args: [--fix]
+      - id: ruff-format  # Formatter
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v2.4.0
+    hooks:
+      - id: mypy
+        args: [--config-file=hw/pyproject.toml]
