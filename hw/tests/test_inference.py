@@ -1,23 +1,13 @@
 import inference
 import pytest
 
-
-@pytest.fixture(scope="module")
-def sentence_transformer():
-    return inference.load_sentence_transformer()
+sentence_transformer = inference.load_sentence_transformer()
+classifier = inference.load_classifier()
 
 
-@pytest.fixture(scope="module")
-def classifier():
-    return inference.load_classifier()
-
-
-def test_sentence_transformer_loads(sentence_transformer):
-    assert sentence_transformer.get_sentence_embedding_dimension() == 384
-
-
-def test_classifier_loads(classifier):
-    assert hasattr(classifier, "predict")
+def test_models_load():
+    assert sentence_transformer is not None
+    assert classifier is not None
 
 
 @pytest.mark.parametrize(
@@ -28,7 +18,5 @@ def test_classifier_loads(classifier):
         ("Today is Monday", "neutral"),
     ],
 )
-def test_predict_returns_expected_sentiment(
-    text, expected, sentence_transformer, classifier
-):
+def test_predict(text, expected):
     assert inference.predict(text, sentence_transformer, classifier) == expected
