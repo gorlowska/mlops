@@ -13,6 +13,7 @@ dependencies = [
     "pandas",
     "psycopg[binary]",
     "pyarrow",
+    "python-dotenv>=1.2.4",
     "ruff",
     "scipy",
 ]
